@@ -417,7 +417,7 @@ class AI(player):
     def play_AI_move(self, myLayer2):
         # fills tree, calculates scores, and plays the best move
         self.board_tree = Tree(Node(myLayer2.squares))
-        self.fill_tree(self.board_tree.label.board, self.board_tree, 6)
+        self.fill_tree(self.board_tree.label.board, self.board_tree, 4)
         self.calc_tree_score(self.board_tree, 0)
         best_boards = []
 
