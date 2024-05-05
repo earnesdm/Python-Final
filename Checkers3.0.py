@@ -1,16 +1,5 @@
 import random
 import pygame
-pygame.init()
-
-window_size = window_width, window_height = 800, 800
-
-window = pygame.display.set_mode(window_size)
-pygame.display.set_caption("Checkers by David Earnest")
-moveSound = pygame.mixer.Sound("untitled.wav")
-pygame.mixer.music.load("My Hopes And Your Dreams.mp3")
-pygame.mixer.music.set_volume(0.1)
-pygame.mixer.music.play(-1)
-font = pygame.font.SysFont(None, 35)
 
 
 class player:
@@ -383,7 +372,7 @@ class AI(player):
                 temp_board[to_delete[1]][to_delete[0]] = Layer2.empty
 
             nodes += [Tree(Node(temp_board))]
-        print("Loading AI Move...")
+        #print("Loading AI Move...")
         return nodes
 
     def fill_tree(self, parent_board, my_tree, n):
@@ -417,7 +406,7 @@ class AI(player):
     def play_AI_move(self, myLayer2):
         # fills tree, calculates scores, and plays the best move
         self.board_tree = Tree(Node(myLayer2.squares))
-        self.fill_tree(self.board_tree.label.board, self.board_tree, 4)
+        self.fill_tree(self.board_tree.label.board, self.board_tree, 6) # N here changes how deep we look
         self.calc_tree_score(self.board_tree, 0)
         best_boards = []
 
@@ -428,6 +417,11 @@ class AI(player):
                 best_boards += [i.label.board]
                 myLayer2.squares = i.label.board
                 break
+
+        # Plays move sound
+        pygame.mixer.music.pause()
+        pygame.mixer.Sound.play(moveSound)
+        pygame.mixer.music.unpause()
 
     def lose(self, myLayer2):
         # If we have no pieces or we cannot make a move we lose
@@ -684,52 +678,73 @@ def drawLayer1():
     pygame.display.update()
 
 
-second_layer = Layer2()
-myPlayer = Player()
-myAI = AI()
+if __name__ == '__main__':
+    pygame.init()
 
-# Main Loop
-run = True
-turn = 0
-lose1 = False
-lose2 = False
-stop = False
+    window_size = window_width, window_height = 800, 800
 
-while run:
-    event = pygame.event.wait()
-    if event.type == pygame.QUIT:
-        run = False
-    elif event.type == pygame.MOUSEBUTTONDOWN:
-        if turn % 2 == 0:
-            if not lose1:
-                myPlayer.player_move(second_layer)
-                turn += myPlayer.moved
-            else:
-                stop = True
-        else:
-            if not lose2:
-                myAI.play_AI_move(second_layer)
-                turn += 1
-            else:
-                stop = True
+    window = pygame.display.set_mode(window_size)
+    pygame.display.set_caption("Checkers by David Earnest")
+    moveSound = pygame.mixer.Sound("untitled.wav")
+    #pygame.mixer.music.load("My Hopes And Your Dreams.mp3")
+    #pygame.mixer.music.set_volume(0.01)
+    #pygame.mixer.music.play(-1)
+    font = pygame.font.SysFont(None, 35)
 
-    if not stop:
-        # Prints board and all pieces
-        drawLayer1()
-        second_layer.print()
-        if myPlayer.holdingPiece:
-            myPlayer.print_layer3(second_layer)
-    else:
-        # Prints game over screen
-        window.fill((0, 0, 0))
-        if lose1:
-            screen_text = font.render("Player 2 Wins!", True, (255, 255, 255))
-        else:
-            screen_text = font.render("Player 1 Wins!", True, (255, 255, 255))
-        window.blit(screen_text, [310, 310])
-        pygame.display.update()
+    second_layer = Layer2()
+    myPlayer = Player()
+    myAI = AI()
 
-    lose1 = myPlayer.lose(second_layer)
-    lose2 = myAI.lose(second_layer)
+    # draw the board and pieces
+    drawLayer1()
+    second_layer.print()
 
-pygame.quit()
+    # Main Loop
+    turn = 0
+    lose1 = False
+    lose2 = False
+    stop = False
+
+    while True:
+        event = pygame.event.wait()
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            break
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if turn % 2 == 0:
+                if not lose1:
+                    myPlayer.player_move(second_layer)
+                    turn += myPlayer.moved
+
+                    # if we moved, so it is now the AI's turn
+                    if turn % 2 == 1:
+                        # Prints board and all pieces
+                        drawLayer1()
+                        second_layer.print()
+
+                        if not lose2:
+                            myAI.play_AI_move(second_layer)
+                            turn += 1
+                        else:
+                            stop = True
+                else:
+                    stop = True
+
+            # Prints board and all pieces
+            drawLayer1()
+            second_layer.print()
+            if myPlayer.holdingPiece:
+                myPlayer.print_layer3(second_layer)
+
+            if stop:
+                # Prints game over screen
+                window.fill((0, 0, 0))
+                if lose1:
+                    screen_text = font.render("Player 2 Wins!", True, (255, 255, 255))
+                else:
+                    screen_text = font.render("Player 1 Wins!", True, (255, 255, 255))
+                window.blit(screen_text, [310, 310])
+                pygame.display.update()
+
+            lose1 = myPlayer.lose(second_layer)
+            lose2 = myAI.lose(second_layer)
