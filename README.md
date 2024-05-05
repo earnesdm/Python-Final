@@ -3,4 +3,4 @@ Contains a checkers game I made. Checkers3.0.py will let you play against an AI 
 
 I might add Alpha-Beta Prunning to this soonish.
 
-You need Pygame and Python 3.7 to run this.
+You need Pygame and Python 3.7 to run this. Just run the file Checkers3.0.py to play.
