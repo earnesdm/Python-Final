@@ -130,7 +130,7 @@ class player:
         self.mouse = (mouse_x, mouse_y)
 
     def get_valid_moves(self, myLayer2):
-        # Returns a dictionary with all of the moves a piece can make
+        # Returns a dictionary with all the moves a piece can make
         valid_moves = {}
         jump_move = False
 
@@ -158,56 +158,29 @@ class player:
             self.get_jumps((self.pieceLocation[0] + 2, self.pieceLocation[1] - 2), myLayer2, valid_moves, [(self.pieceLocation[0] + 1, self.pieceLocation[1] - 1)])
             jump_move = True
 
+        # if it is possible for a piece to jump another piece, then it must make a jump move
         if jump_move:
             valid_moves = {i: valid_moves[i] for i in valid_moves if not valid_moves[i] == []}
         return valid_moves
 
     def get_jumps(self, Location, myLayer2, valid_moves, to_delete):
-        if myLayer2[self.pieceLocation[1]][self.pieceLocation[0]].rank == True:
-            # Booleans that determine if jumps in all directions are valid or not
-            invalid_location_bottom_left = Location[0] - 2 < 0 or Location[1] + 2 > 7 or myLayer2[Location[1] + 1][
-                Location[0] - 1].color != ("Red", "Black")[self.color == "Red"]
-            go_bottom_left = invalid_location_bottom_left or myLayer2[Location[1] + 2][
-                Location[0] - 2] != Layer2.empty or (Location[0] - 1, Location[1] + 1) in to_delete
+        # Booleans that determine if jumps in all directions are valid or not
+        invalid_location_bottom_left = Location[0] - 2 < 0 or Location[1] + 2 > 7 or myLayer2[Location[1] + 1][Location[0] - 1].color != ("Red", "Black")[self.color == "Red"]
+        go_bottom_left = invalid_location_bottom_left or myLayer2[Location[1] + 2][Location[0] - 2] != Layer2.empty or (Location[0] - 1, Location[1] + 1) in to_delete
 
-            invalid_location_top_right = Location[0] + 2 > 7 or Location[1] - 2 < 0 or myLayer2[Location[1] - 1][
-                Location[0] + 1].color != ("Red", "Black")[self.color == "Red"]
-            go_top_right = invalid_location_top_right or myLayer2[Location[1] - 2][Location[0] + 2] != Layer2.empty or (
-            Location[0] + 1, Location[1] - 1) in to_delete
+        invalid_location_top_right = Location[0] + 2 > 7 or Location[1] - 2 < 0 or myLayer2[Location[1] - 1][Location[0] + 1].color != ("Red", "Black")[self.color == "Red"]
+        go_top_right = invalid_location_top_right or myLayer2[Location[1] - 2][Location[0] + 2] != Layer2.empty or (Location[0] + 1, Location[1] - 1) in to_delete
 
-            invalid_location_top_left = Location[0] - 2 < 0 or Location[1] - 2 < 0 or myLayer2[Location[1] - 1][
-                Location[0] - 1].color != ("Red", "Black")[self.color == "Red"]
-            go_top_left = invalid_location_top_left or myLayer2[Location[1] - 2][Location[0] - 2] != Layer2.empty or (
-            Location[0] - 1, Location[1] - 1) in to_delete
+        invalid_location_top_left = Location[0] - 2 < 0 or Location[1] - 2 < 0 or myLayer2[Location[1] - 1][Location[0] - 1].color != ("Red", "Black")[self.color == "Red"]
+        go_top_left = invalid_location_top_left or myLayer2[Location[1] - 2][Location[0] - 2] != Layer2.empty or (Location[0] - 1, Location[1] - 1) in to_delete
 
-            invalid_location_bottom_right = Location[0] + 2 > 7 or Location[1] + 2 > 7 or myLayer2[Location[1] + 1][
-                Location[0] + 1].color != ("Red", "Black")[self.color == "Red"]
-            go_bottom_right = invalid_location_bottom_right or myLayer2[Location[1] + 2][
-                Location[0] + 2] != Layer2.empty or (Location[0] + 1, Location[1] + 1) in to_delete
-        elif self.color == "Red":
-            invalid_location_top_right = Location[0] + 2 > 7 or Location[1] - 2 < 0 or myLayer2[Location[1] - 1][
-                Location[0] + 1].color != ("Red", "Black")[self.color == "Red"]
-            go_top_right = invalid_location_top_right or myLayer2[Location[1] - 2][Location[0] + 2] != Layer2.empty or (
-            Location[0] + 1, Location[1] - 1) in to_delete
+        invalid_location_bottom_right = Location[0] + 2 > 7 or Location[1] + 2 > 7 or myLayer2[Location[1] + 1][Location[0] + 1].color != ("Red", "Black")[self.color == "Red"]
+        go_bottom_right = invalid_location_bottom_right or myLayer2[Location[1] + 2][Location[0] + 2] != Layer2.empty or (Location[0] + 1, Location[1] + 1) in to_delete
 
-            invalid_location_top_left = Location[0] - 2 < 0 or Location[1] - 2 < 0 or myLayer2[Location[1] - 1][
-                Location[0] - 1].color != ("Red", "Black")[self.color == "Red"]
-            go_top_left = invalid_location_top_left or myLayer2[Location[1] - 2][Location[0] - 2] != Layer2.empty or (
-            Location[0] - 1, Location[1] - 1) in to_delete
-
+        if self.color == "Red":
             go_bottom_left = True
             go_bottom_right = True
         elif self.color == "Black":
-            invalid_location_bottom_left = Location[0] - 2 < 0 or Location[1] + 2 > 7 or myLayer2[Location[1] + 1][
-                Location[0] - 1].color != ("Red", "Black")[self.color == "Red"]
-            go_bottom_left = invalid_location_bottom_left or myLayer2[Location[1] + 2][
-                Location[0] - 2] != Layer2.empty or (Location[0] - 1, Location[1] + 1) in to_delete
-
-            invalid_location_bottom_right = Location[0] + 2 > 7 or Location[1] + 2 > 7 or myLayer2[Location[1] + 1][
-                Location[0] + 1].color != ("Red", "Black")[self.color == "Red"]
-            go_bottom_right = invalid_location_bottom_right or myLayer2[Location[1] + 2][
-                Location[0] + 2] != Layer2.empty or (Location[0] + 1, Location[1] + 1) in to_delete
-
             go_top_left = True
             go_top_right = True
 
@@ -271,7 +244,6 @@ class player:
 
 
 class Tree:
-    # I took this class from composingprograms.com
     def __init__(self, label, branches=[]):
         self.label = label
         for branch in branches:
@@ -289,7 +261,7 @@ class Tree:
 
 
 class Node:
-    def __init__(self, board, score = "Empty"):
+    def __init__(self, board, score="Empty"):
         self.board = board
         self.score = score
 
@@ -298,6 +270,7 @@ class AI(player):
     color = "Black"
 
     def __init__(self):
+        super().__init__()
         #self.mouse = (0, 0)
         #self.numPieces = 12
         #self.holdingPiece = False
@@ -307,9 +280,8 @@ class AI(player):
         self.board_tree = Tree("Empty")
 
     def board_score(self, board):
-        #Returns a score evaluating how desirable a board is.
-        #AI wants I high number player wants a low number
-
+        # Returns a score evaluating how desirable a board is.
+        # The AI wants a high number and the player wants a low number
         score = 0
 
         for j in range(8):
@@ -382,7 +354,7 @@ class AI(player):
             return
 
         # place all moves to move list
-        self.get_moves(parent_board, ("Black", "Red")[n%2 == 1])
+        self.get_moves(parent_board, ("Black", "Red")[n % 2 == 1])
 
         # add boards to branches
         my_tree.branches = self.node_of_boards(parent_board)
@@ -424,78 +396,10 @@ class AI(player):
         pygame.mixer.music.unpause()
 
     def lose(self, myLayer2):
-        # If we have no pieces or we cannot make a move we lose
+        # If we have no pieces or we cannot make a move, then we lose
         for j in range(8):
             for i in range(8):
                 if myLayer2[j][i].color == "Black":
-                    if self.can_step((i, j), myLayer2) or self.can_jump((i, j), myLayer2):
-                        return False
-        return True
-
-
-class Player2(player):
-    color = 'Black'
-
-    def __init__(self):
-        self.mouse = (0, 0)
-        self.numPieces = 12
-        self.holdingPiece = False
-        self.pieceLocation = (0, 0)
-        self.moved = False
-
-    def player_move(self, myLayer2):
-        self.moved = False
-        self.set_mouse()
-        # Checks if we have a forced jump
-        if not self.check_forced_move(myLayer2) == []:
-            if self.mouse in self.check_forced_move(myLayer2):
-                self.pieceLocation = self.mouse
-                self.holdingPiece = True
-            else:
-                if self.holdingPiece:
-                    self.swap_pieces(myLayer2)
-                self.holdingPiece = False
-        # standard move
-        else:
-            if myLayer2[self.mouse[1]][self.mouse[0]].color == "Black":
-                self.pieceLocation = self.mouse
-                self.holdingPiece = True
-            else:
-                if self.holdingPiece:
-                    self.swap_pieces(myLayer2)
-                self.holdingPiece = False
-
-    def swap_pieces(self, myLayer2):
-        self.set_mouse()
-        valid_moves = self.get_valid_moves(myLayer2)
-        if self.mouse in valid_moves:
-            self.moved = True
-            isAKing = myLayer2[self.pieceLocation[1]][self.pieceLocation[0]].rank
-            # Swaps piece and final empty square
-            myLayer2[self.pieceLocation[1]][self.pieceLocation[0]] = Layer2.empty
-
-            # If we are on the end of the board we become a king
-            # If we are a king we stay a king
-            if isAKing == True or self.mouse[1] == 7:
-                myLayer2[self.mouse[1]][self.mouse[0]] = Piece(self.color, True)
-            else:
-                myLayer2[self.mouse[1]][self.mouse[0]] = Piece(self.color, False)
-            self.holdingPiece = False
-
-            # Erases Jumped Pieces
-            for i in valid_moves[self.mouse]:
-                myLayer2[i[1]][i[0]] = Layer2.empty
-
-            # Plays move sound
-            pygame.mixer.music.pause()
-            pygame.mixer.Sound.play(moveSound)
-            pygame.mixer.music.unpause()
-
-    def lose(self, myLayer2):
-        # If we have no pieces or we cannot make a move we lose
-        for j in range(8):
-            for i in range(8):
-                if myLayer2[j][i].color == self.color:
                     if self.can_step((i, j), myLayer2) or self.can_jump((i, j), myLayer2):
                         return False
         return True
@@ -505,6 +409,7 @@ class Player(player):
     color = 'Red'
 
     def __init__(self):
+        super().__init__()
         self.mouse = (0, 0)
         self.numPieces = 12
         self.holdingPiece = False
@@ -542,13 +447,13 @@ class Player(player):
         valid_moves = self.get_valid_moves(myLayer2)
         if self.mouse in valid_moves:
             self.moved = True
-            isAKing = myLayer2[self.pieceLocation[1]][self.pieceLocation[0]].rank
+            is_a_king = myLayer2[self.pieceLocation[1]][self.pieceLocation[0]].rank
             # Swaps piece and final empty square
             myLayer2[self.pieceLocation[1]][self.pieceLocation[0]] = Layer2.empty
 
             # If we are on the end of the board we become a king
             # If we are a king we stay a king
-            if isAKing == True or self.mouse[1] == 0:
+            if is_a_king == True or self.mouse[1] == 0:
                 myLayer2[self.mouse[1]][self.mouse[0]] = Piece(self.color, True)
             else:
                 myLayer2[self.mouse[1]][self.mouse[0]] = Piece(self.color, False)
@@ -564,14 +469,12 @@ class Player(player):
             pygame.mixer.music.unpause()
 
     def lose(self, myLayer2):
-
         for j in range(8):
             for i in range(8):
                 if myLayer2[j][i].color == self.color:
                     if self.can_step((i, j), myLayer2) or self.can_jump((i, j), myLayer2):
                         return False
         return True
-
 
 
 class Piece:
@@ -629,10 +532,8 @@ class Layer2:
                 add_piece = not add_piece
             add_piece = not add_piece
 
-
     def print(self):
         # Prints updated positions of every piece on the board
-
         for y in range(self.columns):
             for x in range(self.rows):
                 if not self.squares[y][x] == Layer2.empty:
@@ -686,9 +587,7 @@ if __name__ == '__main__':
     window = pygame.display.set_mode(window_size)
     pygame.display.set_caption("Checkers by David Earnest")
     moveSound = pygame.mixer.Sound("untitled.wav")
-    #pygame.mixer.music.load("My Hopes And Your Dreams.mp3")
-    #pygame.mixer.music.set_volume(0.01)
-    #pygame.mixer.music.play(-1)
+
     font = pygame.font.SysFont(None, 35)
 
     second_layer = Layer2()
