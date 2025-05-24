@@ -6,3 +6,5 @@ I might add Alpha-Beta Pruning to this soonish.
 You need Pygame 2.5.2 and Python 3.8 to run this. 
 
 Just run the file Checkers3.0.py to play. Move a piece by clicking on it with your mouse and then selecting the square to jump to. Remember that if it is possible for you to jump the opponent's piece, then you have to jump, i.e., sometimes moves are forced.
+
+Consult a rule book for more infomation on how to play: https://www.hasbro.com/common/instruct/Checkers.PDF
