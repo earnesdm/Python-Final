@@ -1,6 +1,8 @@
 import random
 import pygame
 
+import time
+
 
 class player:
     color = ''
@@ -428,6 +430,17 @@ class Player(player):
             else:
                 if self.holdingPiece:
                     self.swap_pieces(myLayer2)
+                else:
+                    # display a messages telling the user that a capture is forced
+                    window.fill((0, 0, 0))
+                    screen_text = font.render("A capture is forced. Select a piece that can capture.", True, (255, 255, 255))
+                    window.blit(screen_text, [100, 310])
+                    pygame.display.update()
+
+                    time.sleep(1)
+
+                    #pygame.draw.rect(window, (210, 206, 240), (move[0] * 100, move[1] * 100, 100, 100))
+
                 self.holdingPiece = False
         # standard move
         else:
