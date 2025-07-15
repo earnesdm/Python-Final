@@ -1,7 +1,7 @@
 # Checkers AI
 <p align="center">
   <img src="https://github.com/earnesdm/Python-Final/blob/master/img/checkers.png"
-width="1200"
+width="500"
 />
 </p>
 
