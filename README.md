@@ -1,6 +1,6 @@
 # Checkers AI
 <p align="center">
-  <img src="https://github.com/earnesdm/Python-Final/blob/main/img/checkers.png?raw=true](https://github.com/earnesdm/Python-Final/blob/master/img/checkers.png"
+  <img src="https://github.com/earnesdm/Python-Final/blob/master/img/checkers.png"
 width="1200"
 />
 </p>
